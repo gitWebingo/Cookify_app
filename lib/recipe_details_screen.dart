@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cookify/recipe_provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 class RecipeDetailScreen extends StatelessWidget {
   const RecipeDetailScreen({Key? key}) : super(key: key);
@@ -9,23 +10,25 @@ class RecipeDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final recipe = ModalRoute.of(context)!.settings.arguments as Recipe;
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Stack(
-        children: [
-          SingleChildScrollView(
+    return Consumer<RecipeProvider>(
+      builder: (context, provider, child) {
+        // Find the current state of the recipe from provider to handle updates
+        final currentRecipe = provider.recipes
+            .firstWhere((r) => r.id == recipe.id, orElse: () => recipe);
+
+        return Scaffold(
+          backgroundColor: Colors.white,
+          body: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildImageCarousel(recipe, context),
-                _buildRecipeContent(recipe),
-                const SizedBox(height: 120), // Extra space for floating button
+                _buildImageCarousel(currentRecipe, context),
+                _buildRecipeContent(currentRecipe, context),
               ],
             ),
           ),
-          _buildFloatingActionButton(context),
-        ],
-      ),
+        );
+      },
     );
   }
 
@@ -72,11 +75,15 @@ class RecipeDetailScreen extends StatelessWidget {
                   _buildRoundButton(
                       recipe.isFavorite
                           ? Icons.favorite
-                          : Icons.favorite_border,
-                      () {},
-                      color: const Color(0xFFFF6B35)),
+                          : Icons.favorite_border, () {
+                    Provider.of<RecipeProvider>(context, listen: false)
+                        .toggleFavorite(recipe.id);
+                  }, color: const Color(0xFFFF6B35)),
                   const SizedBox(width: 10),
-                  _buildRoundButton(Icons.share, () {}),
+                  _buildRoundButton(Icons.share, () {
+                    Share.share(
+                        'Check out this delicious recipe: ${recipe.name} by ${recipe.chefName}!\n\n${recipe.instructions}');
+                  }),
                 ],
               ),
             ],
@@ -144,7 +151,7 @@ class RecipeDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildRecipeContent(Recipe recipe) {
+  Widget _buildRecipeContent(Recipe recipe, BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(24.0),
       child: Column(
@@ -210,6 +217,7 @@ class RecipeDetailScreen extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 24),
+          const SizedBox(height: 24),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -218,13 +226,40 @@ class RecipeDetailScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               Text(
-                '${recipe.ingredients.length} Serving',
+                '${recipe.ingredients.length} items',
                 style: const TextStyle(color: Colors.grey),
               ),
             ],
           ),
+          const SizedBox(height: 12),
+          ElevatedButton.icon(
+            onPressed: () {
+              Provider.of<RecipeProvider>(context, listen: false)
+                  .addToShoppingList(recipe.ingredients);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: const Text('Added to shopping list!'),
+                  behavior: SnackBarBehavior.floating,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12)),
+                  backgroundColor: const Color(0xFFFF6B35),
+                ),
+              );
+            },
+            icon: const Icon(Icons.shopping_basket_outlined, size: 20),
+            label: const Text('Add All to Shopping List'),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFFFF6B35).withOpacity(0.1),
+              foregroundColor: const Color(0xFFFF6B35),
+              elevation: 0,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15)),
+            ),
+          ),
           const SizedBox(height: 16),
           _buildIngredientsList(recipe),
+          const SizedBox(height: 40),
         ],
       ),
     );
@@ -254,110 +289,8 @@ class RecipeDetailScreen extends StatelessWidget {
             ],
           ),
         ),
-        _buildIconAction(Icons.chat_bubble_outline, const Color(0xFFFF6B35)),
-        const SizedBox(width: 12),
-        _buildIconAction(Icons.phone_outlined, const Color(0xFFFF6B35)),
+        // Removed non-functional Chat and Phone icons
       ],
-    );
-  }
-
-  Widget _buildIconAction(IconData icon, Color color) {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Icon(icon, color: color, size: 20),
-    );
-  }
-
-  Widget _buildInfoTile(IconData icon, String label, String value) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.all(15),
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey.shade100),
-          borderRadius: BorderRadius.circular(15),
-        ),
-        child: Row(
-          children: [
-            Icon(icon, color: const Color(0xFFFF6B35), size: 24),
-            const SizedBox(width: 12),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(label,
-                    style: const TextStyle(color: Colors.grey, fontSize: 10)),
-                Text(value,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 14)),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildIngredientsList(Recipe recipe) {
-    return Column(
-      children: recipe.ingredients.map((ingredient) {
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 12),
-          child: Row(
-            children: [
-              Container(
-                width: 8,
-                height: 8,
-                decoration: const BoxDecoration(
-                    color: Color(0xFFFF6B35), shape: BoxShape.circle),
-              ),
-              const SizedBox(width: 12),
-              Text(
-                ingredient,
-                style: TextStyle(color: Colors.grey.shade800, fontSize: 14),
-              ),
-            ],
-          ),
-        );
-      }).toList(),
-    );
-  }
-
-  Widget _buildFloatingActionButton(BuildContext context) {
-    return Positioned(
-      bottom: 30,
-      left: 60,
-      right: 60,
-      child: Container(
-        height: 60,
-        decoration: BoxDecoration(
-          color: const Color(0xFFFF6B35),
-          borderRadius: BorderRadius.circular(30),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFFFF6B35).withOpacity(0.3),
-              blurRadius: 20,
-              offset: const Offset(0, 10),
-            ),
-          ],
-        ),
-        child: const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.play_circle_fill, color: Colors.white, size: 30),
-            SizedBox(width: 10),
-            Text(
-              'Watch Videos',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18),
-            ),
-          ],
-        ),
-      ),
     );
   }
 
@@ -417,6 +350,59 @@ class RecipeDetailScreen extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+
+  Widget _buildInfoTile(IconData icon, String label, String value) {
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.all(15),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey.shade100),
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Row(
+          children: [
+            Icon(icon, color: const Color(0xFFFF6B35), size: 24),
+            const SizedBox(width: 12),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(label,
+                    style: const TextStyle(color: Colors.grey, fontSize: 10)),
+                Text(value,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 14)),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildIngredientsList(Recipe recipe) {
+    return Column(
+      children: recipe.ingredients.map((ingredient) {
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 12),
+          child: Row(
+            children: [
+              Container(
+                width: 8,
+                height: 8,
+                decoration: const BoxDecoration(
+                    color: Color(0xFFFF6B35), shape: BoxShape.circle),
+              ),
+              const SizedBox(width: 12),
+              Text(
+                ingredient,
+                style: TextStyle(color: Colors.grey.shade800, fontSize: 14),
+              ),
+            ],
+          ),
+        );
+      }).toList(),
     );
   }
 }

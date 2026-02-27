@@ -166,30 +166,31 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           SafeArea(
             child: Column(
               children: [
-                Align(
-                  alignment: Alignment.topRight,
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: TextButton(
-                      onPressed: () =>
-                          Navigator.pushReplacementNamed(context, '/login'),
-                      child: const Text(
-                        'SKIP',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: 2.0,
-                          shadows: [
-                            Shadow(
-                                color: Colors.black26,
-                                offset: Offset(0, 1),
-                                blurRadius: 4),
-                          ],
+                if (_currentPage != _onboardingData.length - 1)
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: TextButton(
+                        onPressed: () =>
+                            Navigator.pushReplacementNamed(context, '/login'),
+                        child: const Text(
+                          'SKIP',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 2.0,
+                            shadows: [
+                              Shadow(
+                                  color: Colors.black26,
+                                  offset: Offset(0, 1),
+                                  blurRadius: 4),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
                 const Spacer(),
 
                 // Bottom UI Bar
@@ -222,6 +223,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       GestureDetector(
                         onTap: () {
                           if (_currentPage == _onboardingData.length - 1) {
+                            // Navigate to Login Screen
                             Navigator.pushReplacementNamed(context, '/login');
                           } else {
                             _pageController.nextPage(

@@ -16,8 +16,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
   String _category = 'Breakfast';
   String _ingredients = '';
   String _instructions = '';
-  String _imagePath =
-      'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80';
+  String _imagePath = '';
 
   final List<String> _categoriesList = [
     'Breakfast',
@@ -27,12 +26,20 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
     'Vegan',
     'Gluten-Free',
     'Italian',
-    'Healthy'
+    'Healthy',
+    'Main Course',
+    'Drinks'
   ];
 
   void _saveRecipe() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
+
+      // Use a default image if none provided
+      if (_imagePath.trim().isEmpty) {
+        _imagePath =
+            'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80';
+      }
 
       final newRecipe = Recipe(
         id: const Uuid().v4(),

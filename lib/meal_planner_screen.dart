@@ -99,6 +99,17 @@ class MealPlannerScreen extends StatelessWidget {
                         ),
                       ),
                     ),
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 16),
+                      child: Image.asset(
+                        'assets/icons/logo.png',
+                        fit: BoxFit.cover,
+                        height: 50,
+                        width: 100,
+                      ),
+                    ),
+                  ),
                 ],
               ),
 

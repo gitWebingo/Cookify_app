@@ -12,60 +12,74 @@ class SearchCategoriesScreen extends StatefulWidget {
 class _SearchCategoriesScreenState extends State<SearchCategoriesScreen> {
   final List<Map<String, dynamic>> _categories = [
     {
-      'label': 'Vegan',
+      'label': 'Breakfast',
       'image':
-          'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&q=80',
-      'icon': '🥗',
-      'color': const Color(0xFFE8F5E9)
+          'https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=800&q=80',
+      'icon': '🍳',
+      'description': 'Start your day right'
+    },
+    {
+      'label': 'Lunch',
+      'image':
+          'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80',
+      'icon': '�',
+      'description': 'Mid-day fuel'
+    },
+    {
+      'label': 'Dinner',
+      'image':
+          'https://images.unsplash.com/photo-1544025162-d76694265947?w=800&q=80',
+      'icon': '�️',
+      'description': 'Evening delights'
     },
     {
       'label': 'Dessert',
       'image':
           'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=800&q=80',
       'icon': '🧁',
-      'color': const Color(0xFFFCE4EC)
-    },
-    {
-      'label': 'Italian',
-      'image':
-          'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=800&q=80',
-      'icon': '🍝',
-      'color': const Color(0xFFFFF3E0)
+      'description': 'Sweet treats'
     },
     {
       'label': 'Main Course',
       'image':
           'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80',
       'icon': '🥩',
-      'color': const Color(0xFFFBE9E7)
+      'description': 'Hearty meals'
     },
     {
-      'label': 'Breakfast',
+      'label': 'Drinks',
       'image':
-          'https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=800&q=80',
-      'icon': '🍳',
-      'color': const Color(0xFFFFFDE7)
+          'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=800&q=80',
+      'icon': '�',
+      'description': 'Refreshments'
     },
     {
-      'label': 'Healthy',
+      'label': 'Italian',
       'image':
-          'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=800&q=80',
-      'icon': '🥦',
-      'color': const Color(0xFFF1F8E9)
+          'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=800&q=80',
+      'icon': '🍝',
+      'description': 'Taste of Italy'
+    },
+    {
+      'label': 'Vegan',
+      'image':
+          'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&q=80',
+      'icon': '�',
+      'description': 'Plant-based power'
     },
     {
       'label': 'Gluten-Free',
       'image':
           'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&q=80',
       'icon': '🍞',
-      'color': const Color(0xFFEFEBE9)
+      'description': 'Wheat-free wonders'
     },
     {
-      'label': 'Drinks',
+      'label': 'Healthy',
       'image':
-          'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=800&q=80',
-      'icon': '🍹',
-      'color': const Color(0xFFE1F5FE)
+          'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=800&q=80',
+      'icon': '🥦',
+      'description': 'Nutritious choices'
     },
   ];
 
@@ -76,45 +90,42 @@ class _SearchCategoriesScreenState extends State<SearchCategoriesScreen> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            expandedHeight: 180.0,
+            expandedHeight: 80.0,
             floating: false,
             pinned: true,
             elevation: 0,
             backgroundColor: Colors.white,
-            flexibleSpace: FlexibleSpaceBar(
-              centerTitle: false,
-              titlePadding: const EdgeInsets.only(left: 24, bottom: 16),
-              title: const Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Choose Your',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  Text(
-                    'Cuisines.',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
+            centerTitle: true,
+            title: const Text(
+              'Categories',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
               ),
             ),
+            iconTheme: const IconThemeData(color: Colors.black),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: 16),
+                child: Container(
+                  height: 50,
+                  width: 100,
+                  child: Image.asset(
+                    'assets/icons/logo.png',
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ],
           ),
           SliverPadding(
-            padding: const EdgeInsets.all(24.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             sliver: SliverGrid(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
+                crossAxisSpacing: 15,
+                mainAxisSpacing: 15,
                 childAspectRatio: 0.85,
               ),
               delegate: SliverChildBuilderDelegate(
@@ -133,101 +144,135 @@ class _SearchCategoriesScreenState extends State<SearchCategoriesScreen> {
 
   Widget _buildElegantCategoryCard(
       Map<String, dynamic> category, BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(28),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 15,
-            offset: const Offset(0, 8),
-          ),
-        ],
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(28),
-        child: Stack(
-          children: [
-            // Background Image
-            Image.network(
-              category['image'],
-              height: double.infinity,
-              width: double.infinity,
-              fit: BoxFit.cover,
-            ),
+    return GestureDetector(
+      onTap: () {
+        final provider = Provider.of<RecipeProvider>(context, listen: false);
+        provider.setFilters(category: category['label']);
+        provider.setTabIndex(0);
 
-            // Gradient Overlay
-            Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.black.withOpacity(0.1),
-                    Colors.black.withOpacity(0.3),
-                    Colors.black.withOpacity(0.7),
+        // Navigation Logic:
+        // If this screen was pushed (e.g. from "See All"), pop it.
+        // If it's the main tab, switching tab index (above) handles it.
+        if (Navigator.canPop(context)) {
+          Navigator.pop(context);
+        }
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(24),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.08),
+              blurRadius: 15,
+              offset: const Offset(0, 8),
+            ),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(24),
+          child: Stack(
+            children: [
+              // Background Image with Zoom Effect Container
+              Positioned.fill(
+                child: Image.network(
+                  category['image'],
+                  fit: BoxFit.cover,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return Container(
+                      color: Colors.grey[200],
+                      child: const Center(
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Color(0xFFFF6B35),
+                        ),
+                      ),
+                    );
+                  },
+                  errorBuilder: (context, error, stackTrace) => Container(
+                    color: Colors.grey[300],
+                    child: const Icon(Icons.image_not_supported,
+                        color: Colors.grey),
+                  ),
+                ),
+              ),
+
+              // Gradient Overlay
+              Positioned.fill(
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.transparent,
+                        Colors.black.withOpacity(0.2),
+                        Colors.black.withOpacity(0.8),
+                      ],
+                      stops: const [0.4, 0.6, 1.0],
+                    ),
+                  ),
+                ),
+              ),
+
+              // Content
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // Icon Badge
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.25),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: Colors.white.withOpacity(0.3),
+                            width: 1,
+                          ),
+                        ),
+                        child: Text(
+                          category['icon'],
+                          style: const TextStyle(fontSize: 20),
+                        ),
+                      ),
+                    ),
+
+                    // Text Content
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          category['label'],
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          category['description'],
+                          style: TextStyle(
+                            color: Colors.white.withOpacity(0.9),
+                            fontSize: 11,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
-            ),
-
-            // Category Details
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.35),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      category['icon'],
-                      style: const TextStyle(fontSize: 22),
-                    ),
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        category['label'],
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        'Explore Now',
-                        style: TextStyle(
-                          color: Colors.white.withOpacity(0.8),
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-
-            // Ink Well for Ripple Effect
-            Material(
-              color: Colors.transparent,
-              child: InkWell(
-                onTap: () {
-                  final provider =
-                      Provider.of<RecipeProvider>(context, listen: false);
-                  provider.setFilters(category: category['label']);
-                  provider.setTabIndex(0);
-                },
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

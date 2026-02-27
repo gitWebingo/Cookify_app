@@ -89,6 +89,17 @@ class ShoppingListScreen extends StatelessWidget {
                         ),
                       ),
                     ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 16),
+                    child: Container(
+                      height: 50,
+                      width: 100,
+                      child: Image.asset(
+                        'assets/icons/logo.png',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
                 ],
               ),
 

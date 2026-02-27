@@ -20,8 +20,6 @@ class _LoginScreenState extends State<LoginScreen>
   @override
   void initState() {
     super.initState();
-    _checkSession();
-
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1200),
@@ -36,16 +34,6 @@ class _LoginScreenState extends State<LoginScreen>
     );
 
     _animationController.forward();
-  }
-
-  Future<void> _checkSession() async {
-    final prefs = await SharedPreferences.getInstance();
-    final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
-
-    if (isLoggedIn && mounted) {
-      // User is already logged in, navigate to home
-      Navigator.pushReplacementNamed(context, '/home');
-    }
   }
 
   void _login() async {
@@ -83,6 +71,7 @@ class _LoginScreenState extends State<LoginScreen>
         await prefs.setString('userEmail', email);
 
         if (mounted) {
+          // Navigate to Home Screen
           Navigator.pushReplacementNamed(context, '/home');
         }
       } else {
@@ -183,12 +172,23 @@ class _LoginScreenState extends State<LoginScreen>
                         ],
                       ),
                       child: SingleChildScrollView(
-                        padding: const EdgeInsets.fromLTRB(32, 40, 32, 32),
+                        padding: const EdgeInsets.fromLTRB(32, 00, 32, 32),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
+                            Center(
+                              child: Container(
+                                height: 100,
+                                width: 280,
+                                child: Image.asset(
+                                  'assets/icons/logo.png',
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 14),
                             Text(
-                              'Welcome Back',
+                              'Welcome',
                               style: TextStyle(
                                 fontSize: 32,
                                 fontWeight: FontWeight.bold,

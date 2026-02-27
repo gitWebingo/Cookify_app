@@ -129,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        'Hello, Jenny!',
+                        'Hello, Chef!',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 18,
@@ -148,28 +148,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               Container(
-                padding: const EdgeInsets.all(8),
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                ),
-                child: Stack(
-                  children: [
-                    const Icon(Icons.notifications_none,
-                        color: Colors.grey, size: 24),
-                    Positioned(
-                      right: 2,
-                      top: 2,
-                      child: Container(
-                        width: 8,
-                        height: 8,
-                        decoration: const BoxDecoration(
-                          color: Colors.red,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                    ),
-                  ],
+                height: 40,
+                width: 120,
+                color: Colors.white,
+                child: Image.asset(
+                  'assets/icons/logo.png',
+                  fit: BoxFit.cover,
                 ),
               ),
             ],
@@ -203,16 +187,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              const SizedBox(width: 15),
-              Container(
-                height: 55,
-                width: 55,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: const Icon(Icons.tune, color: Color(0xFFFF6B35)),
-              ),
             ],
           ),
         ],
@@ -227,7 +201,10 @@ class _HomeScreenState extends State<HomeScreen> {
       'Italian',
       'Dessert',
       'Healthy',
-      'Gluten-Free'
+      'Gluten-Free',
+      'Main Course',
+      'Breakfast',
+      'Drinks'
     ];
 
     return SizedBox(
@@ -309,7 +286,6 @@ class _HomeScreenState extends State<HomeScreen> {
               final provider =
                   Provider.of<RecipeProvider>(context, listen: false);
               provider.setFilters(category: _categories[index]['name']!);
-              Navigator.pushNamed(context, '/categories');
             },
             child: Padding(
               padding: const EdgeInsets.only(right: 20),

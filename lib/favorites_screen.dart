@@ -17,7 +17,7 @@ class FavoritesScreen extends StatelessWidget {
           return CustomScrollView(
             slivers: [
               SliverAppBar(
-                expandedHeight: 180.0,
+                expandedHeight: 80.0,
                 floating: false,
                 pinned: true,
                 elevation: 0,
@@ -25,29 +25,29 @@ class FavoritesScreen extends StatelessWidget {
                 flexibleSpace: FlexibleSpaceBar(
                   centerTitle: false,
                   titlePadding: const EdgeInsets.only(left: 24, bottom: 16),
-                  title: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Your',
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      Text(
-                        'Favorites ❤️',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
+                  title: const Text(
+                    'Favorites',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: -0.5,
+                    ),
                   ),
                 ),
+                actions: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 16),
+                    child: Container(
+                      height: 50,
+                      width: 100,
+                      child: Image.asset(
+                        'assets/icons/logo.png',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                ],
               ),
               if (favoriteRecipes.isEmpty)
                 SliverFillRemaining(

@@ -266,6 +266,15 @@ class RecipeProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  // Reset recipes to initial state (useful for loading new recipes)
+  Future<void> resetToInitialRecipes() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('recipes');
+    _recipes = _getInitialRecipes();
+    await saveRecipes();
+    notifyListeners();
+  }
+
   void setFilters({String? query, String? category}) {
     if (query != null) _searchQuery = query;
     if (category != null) _activeCategory = category;
@@ -573,6 +582,192 @@ class RecipeProvider with ChangeNotifier {
         cookingTime: '20 min',
         difficulty: 'Easy',
         cuisine: 'Gluten-Free',
+        isVegetarian: true,
+      ),
+      // Main Course Recipe 1
+      Recipe(
+        id: const Uuid().v4(),
+        name: 'Grilled Ribeye Steak',
+        category: 'Main Course',
+        imagePath:
+            'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&q=80',
+        imagePaths: [
+          'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&q=80',
+          'https://images.unsplash.com/photo-1558030006-450675393462?w=600&q=80',
+        ],
+        ingredients: [
+          '2 Ribeye Steaks',
+          'Salt',
+          'Black Pepper',
+          'Garlic Powder',
+          'Butter',
+          'Fresh Rosemary'
+        ],
+        instructions:
+            '1. Season steaks with salt, pepper, and garlic powder\n2. Let rest at room temperature for 30 minutes\n3. Grill on high heat for 4-5 minutes per side\n4. Add butter and rosemary in last minute\n5. Rest for 5 minutes before serving',
+        rating: 4.9,
+        reviewsCount: 1320,
+        chefName: 'Marcus Johnson',
+        chefImage:
+            'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&q=80',
+        cookingTime: '45 min',
+        difficulty: 'Medium',
+        cuisine: 'Main Course',
+        isVegetarian: false,
+      ),
+      // Main Course Recipe 2
+      Recipe(
+        id: const Uuid().v4(),
+        name: 'Herb Roasted Chicken',
+        category: 'Main Course',
+        imagePath:
+            'https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=600&q=80',
+        imagePaths: [
+          'https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=600&q=80',
+          'https://images.unsplash.com/photo-1594221708779-94832f4320d1?w=600&q=80',
+        ],
+        ingredients: [
+          '1 Whole Chicken',
+          'Olive Oil',
+          'Fresh Thyme',
+          'Fresh Rosemary',
+          'Lemon',
+          'Garlic Cloves'
+        ],
+        instructions:
+            '1. Preheat oven to 200°C\n2. Rub chicken with olive oil and herbs\n3. Stuff with lemon and garlic\n4. Roast for 1 hour 15 minutes\n5. Let rest before carving',
+        rating: 4.8,
+        reviewsCount: 980,
+        chefName: 'Julia Roberts',
+        chefImage:
+            'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&q=80',
+        cookingTime: '90 min',
+        difficulty: 'Medium',
+        cuisine: 'Main Course',
+        isVegetarian: false,
+      ),
+      // Breakfast Recipe 1
+      Recipe(
+        id: const Uuid().v4(),
+        name: 'Classic French Toast',
+        category: 'Breakfast',
+        imagePath:
+            'https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=600&q=80',
+        imagePaths: [
+          'https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=600&q=80',
+          'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=600&q=80',
+        ],
+        ingredients: [
+          '4 slices Bread',
+          '2 Eggs',
+          '1/4 cup Milk',
+          'Cinnamon',
+          'Vanilla Extract',
+          'Maple Syrup'
+        ],
+        instructions:
+            '1. Whisk eggs, milk, cinnamon, and vanilla\n2. Dip bread slices in mixture\n3. Cook on buttered griddle until golden\n4. Flip and cook other side\n5. Serve with maple syrup and berries',
+        rating: 4.7,
+        reviewsCount: 650,
+        chefName: 'Sophie Martin',
+        chefImage:
+            'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&q=80',
+        cookingTime: '15 min',
+        difficulty: 'Easy',
+        cuisine: 'Breakfast',
+        isVegetarian: true,
+      ),
+      // Breakfast Recipe 2
+      Recipe(
+        id: const Uuid().v4(),
+        name: 'Avocado Toast with Eggs',
+        category: 'Breakfast',
+        imagePath:
+            'https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?w=600&q=80',
+        imagePaths: [
+          'https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?w=600&q=80',
+          'https://images.unsplash.com/photo-1588137378633-dea1336ce1e2?w=600&q=80',
+        ],
+        ingredients: [
+          '2 slices Sourdough Bread',
+          '1 Avocado',
+          '2 Eggs',
+          'Cherry Tomatoes',
+          'Salt & Pepper',
+          'Red Pepper Flakes'
+        ],
+        instructions:
+            '1. Toast bread until golden\n2. Mash avocado with salt and pepper\n3. Fry or poach eggs\n4. Spread avocado on toast\n5. Top with eggs and tomatoes',
+        rating: 4.6,
+        reviewsCount: 890,
+        chefName: 'Alex Turner',
+        chefImage:
+            'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&q=80',
+        cookingTime: '10 min',
+        difficulty: 'Easy',
+        cuisine: 'Breakfast',
+        isVegetarian: true,
+      ),
+      // Drinks Recipe 1
+      Recipe(
+        id: const Uuid().v4(),
+        name: 'Tropical Mango Smoothie',
+        category: 'Drinks',
+        imagePath:
+            'https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=600&q=80',
+        imagePaths: [
+          'https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=600&q=80',
+          'https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=600&q=80',
+        ],
+        ingredients: [
+          '1 Mango',
+          '1 Banana',
+          '1 cup Pineapple',
+          '1 cup Coconut Milk',
+          'Ice Cubes',
+          'Honey (optional)'
+        ],
+        instructions:
+            '1. Peel and chop mango and banana\n2. Add all ingredients to blender\n3. Blend until smooth\n4. Add honey if desired\n5. Pour into glasses and serve immediately',
+        rating: 4.8,
+        reviewsCount: 720,
+        chefName: 'Maya Patel',
+        chefImage:
+            'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&q=80',
+        cookingTime: '5 min',
+        difficulty: 'Easy',
+        cuisine: 'Drinks',
+        isVegetarian: true,
+      ),
+      // Drinks Recipe 2
+      Recipe(
+        id: const Uuid().v4(),
+        name: 'Refreshing Lemonade',
+        category: 'Drinks',
+        imagePath:
+            'https://images.unsplash.com/photo-1523677011781-c91d1bbe2f9d?w=600&q=80',
+        imagePaths: [
+          'https://images.unsplash.com/photo-1523677011781-c91d1bbe2f9d?w=600&q=80',
+          'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=600&q=80',
+        ],
+        ingredients: [
+          '6 Lemons',
+          '1 cup Sugar',
+          '6 cups Water',
+          'Ice Cubes',
+          'Fresh Mint',
+          'Lemon Slices for garnish'
+        ],
+        instructions:
+            '1. Juice the lemons\n2. Make simple syrup with sugar and 1 cup water\n3. Mix lemon juice, syrup, and remaining water\n4. Chill in refrigerator\n5. Serve over ice with mint and lemon slices',
+        rating: 4.5,
+        reviewsCount: 540,
+        chefName: 'David Lee',
+        chefImage:
+            'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&q=80',
+        cookingTime: '10 min',
+        difficulty: 'Easy',
+        cuisine: 'Drinks',
         isVegetarian: true,
       ),
     ];
